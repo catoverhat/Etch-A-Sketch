@@ -5,6 +5,7 @@ import "./grid.css";
 const Grid = () => {
   const [gridSize, setGridSize] = useState(16);
   const [cells, setCells] = useState("");
+  const [isMouseDown, setIsMouseDown] = useState(false);
 
   const gridSizeHandler = (event) => {
     setGridSize(event.target.value);
@@ -22,8 +23,18 @@ const Grid = () => {
     skecht();
   }, [gridSize]);
 
+  const handleMouseDown = () => {
+    setIsMouseDown(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsMouseDown(false);
+  };
+
   const handleHover = (event) => {
-    event.target.classList.add("active");
+    if (isMouseDown) {
+      event.target.classList.add("active");
+    }
   };
 
   const clearGrid = () => {
@@ -33,6 +44,8 @@ const Grid = () => {
   return (
     <Fragment>
       <div
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
         onMouseOver={handleHover}
         className="grid-container"
         style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
@@ -40,7 +53,11 @@ const Grid = () => {
         {cells}
       </div>
 
-      <Buttons clearGrid={clearGrid} changeGridSize={gridSizeHandler} size={gridSize}/>
+      <Buttons
+        clearGrid={clearGrid}
+        changeGridSize={gridSizeHandler}
+        size={gridSize}
+      />
     </Fragment>
   );
 };
