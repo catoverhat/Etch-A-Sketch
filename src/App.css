@@ -1,4 +1,28 @@
-.body{
-    /* display: grid; */
+main{
     height: 100vh;
+    background: linear-gradient(220.55deg, #EAEAEA 0%, #8B8B8B 100%);
+    /* display: grid;
+    grid-template-columns: repeat(2,1fr); */
+}
+
+header{
+    text-align: center;
+    font-size: 60px;
+    padding: 40px;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+footer{
+    position: relative;
+    top: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }

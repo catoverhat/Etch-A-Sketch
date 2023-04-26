@@ -51,6 +51,11 @@ const Grid = ({ isMouseDown }) => {
 
   return (
     <Fragment>
+      <Buttons
+        clearGrid={clearGrid}
+        changeGridSize={gridSizeHandler}
+        size={gridSize}
+      />
       <div
         // onMouseOver={handleHover}
         className="grid-container"
@@ -66,12 +71,6 @@ const Grid = ({ isMouseDown }) => {
           ></div>
         ))}
       </div>
-
-      <Buttons
-        clearGrid={clearGrid}
-        changeGridSize={gridSizeHandler}
-        size={gridSize}
-      />
     </Fragment>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Grid from "./components/grid";
+import Githublogo from "./components/githublogo";
 
 const App = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -14,14 +15,18 @@ const App = () => {
   };
 
   return (
-    <div
-      className="body"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-    >
-      <Grid isMouseDown={isMouseDown} />
-      <footer>Footer</footer>
-    </div>
+    <main onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+      <header>
+        <h1>Etch-a-sketch</h1>
+      </header>
+      <div className="container">
+        <Grid isMouseDown={isMouseDown} />
+      </div>
+      <footer>
+        <h3>Copyright &copy; 2023 catoverhat</h3>
+        <Githublogo />
+      </footer>
+    </main>
   );
 };
 

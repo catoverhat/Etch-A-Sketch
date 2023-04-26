@@ -1,8 +1,9 @@
-import { Fragment, useState } from "react";
+import "./button.css";
 
 const Buttons = ({ clearGrid, changeGridSize, size }) => {
   return (
-    <Fragment>
+    <div className="btn-container">
+      <button onClick={clearGrid}>clear</button>
       <label htmlFor="gridSize">{`${size} x ${size}`}</label>
       <input
         onChange={changeGridSize}
@@ -12,9 +13,7 @@ const Buttons = ({ clearGrid, changeGridSize, size }) => {
         min="1"
         max="64"
       />
-
-      <button onClick={clearGrid}>clear</button>
-    </Fragment>
+    </div>
   );
 };
 
