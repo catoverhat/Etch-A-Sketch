@@ -9,7 +9,7 @@ const App = () => {
   const handleMouseDown = () => {
     setIsMouseDown(true);
   };
-
+ 
   const handleMouseUp = () => {
     setIsMouseDown(false);
   };

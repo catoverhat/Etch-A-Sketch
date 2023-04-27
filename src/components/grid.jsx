@@ -3,14 +3,11 @@ import Buttons from "./buttons";
 import "./grid.css";
 
 const Grid = ({ isMouseDown }) => {
-  const [gridSize, setGridSize] = useState(3);
-  // const [cells, setCells] = useState("");
-  const [clear, setClear] = useState(false);
+  const [gridSize, setGridSize] = useState(4);
   const [cells, setCells] = useState(
     Array(gridSize ** 2).fill({ state: false, color: "#ffffff" })
   );
   const [pickColor, setPickColor] = useState("#000000");
-
   const colorPaletteHandler = ({ target: { value } }) => {
     setPickColor(value);
   };
@@ -25,12 +22,19 @@ const Grid = ({ isMouseDown }) => {
       setCells((prevState) => {
         const newState = [...prevState];
         newState[index] = { state: true, color: pickColor };
-
-        // console.log(newState);
         return newState;
       });
     }
   };
+
+  const mouseDownHandler = (index) => {
+    setCells((prevState) => {
+      const newState = [...prevState];
+      newState[index] = { state: true, color: pickColor };
+      return newState;
+    });
+  };
+
   // console.log(cells);
   // const handleHover = (index) => isMouseDown && setCells({...cells, state:true})
 
@@ -47,15 +51,13 @@ const Grid = ({ isMouseDown }) => {
         changeColor={colorPaletteHandler}
       />
       <div
-        // onMouseOver={handleHover}
         className="grid-container"
         style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
       >
-        {/* {cells} */}
-
         {cells.map((active, index) => (
           <div
             key={index}
+            onMouseDown={() => mouseDownHandler(index)}
             onMouseOver={() => handleHover(index)}
             style={{ backgroundColor: active.color }}
           ></div>
