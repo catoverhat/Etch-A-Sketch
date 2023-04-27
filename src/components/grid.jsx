@@ -8,16 +8,18 @@ const Grid = ({ isMouseDown }) => {
   const [cells, setCells] = useState(
     Array(gridSize ** 2).fill(cellDataStructure)
   );
-  const [pickColor, setPickColor] = useState("#000000");
-  const [eraseState, setEraseState] = useState(false);
-  const [colorState, setColorState] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("#000000");
+  const [colorState, setColorState] = useState(true);
   const [rainbowState, setRainbowState] = useState(false);
+  const [eraseState, setEraseState] = useState(false);
+
 
   const colorModeHandler = () => {
     setColorState(true);
     setRainbowState(false);
     setEraseState(false);
   };
+
   const rainbowModeHandler = () => {
     setColorState(false);
     setRainbowState(true);
@@ -41,27 +43,40 @@ const Grid = ({ isMouseDown }) => {
     return newState;
   };
 
+  const colorPaletteHandler = ({ target: { value } }) => {
+    setSelectedColor(value);
+  };
+
   const getRandomColor = () => {
     const hexDigits = "0123456789ABCDEF";
     let color = "#";
     for (let i = 0; i < 6; i++) {
       color += hexDigits[Math.floor(Math.random() * 16)];
     }
-    rainbowState && setPickColor(color);;
+    return color;
   };
 
-  const colorPaletteHandler = ({ target: { value } }) => {
-    colorState && setPickColor(value);
-  };
   const mouseDownHandler = (index) => {
-    getRandomColor()
-    setCells((prevState) => updateCell(prevState, index, true, pickColor));
+    colorState &&
+      setCells((prevState) =>
+        updateCell(prevState, index, true, selectedColor)
+      );
+    rainbowState &&
+      setCells((prevState) =>
+        updateCell(prevState, index, true, getRandomColor())
+      );
   };
 
   const hoverHandler = (index) => {
     if (isMouseDown) {
-      getRandomColor()
-      setCells((prevState) => updateCell(prevState, index, true, pickColor));
+      colorState &&
+        setCells((prevState) =>
+          updateCell(prevState, index, true, selectedColor)
+        );
+      rainbowState &&
+        setCells((prevState) =>
+          updateCell(prevState, index, true, getRandomColor())
+        );
     }
   };
 
