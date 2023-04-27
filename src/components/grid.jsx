@@ -5,9 +5,11 @@ import "./grid.css";
 const Grid = ({ isMouseDown }) => {
   const [gridSize, setGridSize] = useState(4);
   const [cells, setCells] = useState(
-    Array(gridSize ** 2).fill({ state: false, color: "#ffffff" })
+    Array(gridSize ** 2).fill({ state: false, color: "rgb(255 255 255)" })
   );
   const [pickColor, setPickColor] = useState("#000000");
+  const [eraseState, setEraseState] = useState(false);
+
   const colorPaletteHandler = ({ target: { value } }) => {
     setPickColor(value);
   };
@@ -17,7 +19,7 @@ const Grid = ({ isMouseDown }) => {
     setCells(Array(value ** 2).fill({ state: false, color: "#ffffff" }));
   };
 
-  const handleHover = (index) => {
+  const hoverHandler = (index) => {
     if (isMouseDown) {
       setCells((prevState) => {
         const newState = [...prevState];
@@ -38,8 +40,31 @@ const Grid = ({ isMouseDown }) => {
   // console.log(cells);
   // const handleHover = (index) => isMouseDown && setCells({...cells, state:true})
 
+  const eraseStateHandler = () => {
+    setEraseState(true);
+  };
+
+  const eraseHoverHandler = (index) => {
+    if (isMouseDown) {
+      setCells((prevState) => {
+        const newState = [...prevState];
+        newState[index] = { state: false, color: "#ffffff" };
+        return newState;
+      });
+    }
+  };
+
+  const eraseDownHandler = (index) => {
+    setCells((prevState) => {
+      const newState = [...prevState];
+      newState[index] = { state: false, color: "#ffffff" };
+      return newState;
+    });
+  };
+
   const clearGrid = () => {
     setCells(Array(gridSize ** 2).fill({ state: false, color: "#ffffff" }));
+    setEraseState(false);
   };
 
   return (
@@ -49,6 +74,7 @@ const Grid = ({ isMouseDown }) => {
         changeGridSize={gridSizeHandler}
         size={gridSize}
         changeColor={colorPaletteHandler}
+        eraseGrid={eraseStateHandler}
       />
       <div
         className="grid-container"
@@ -57,8 +83,16 @@ const Grid = ({ isMouseDown }) => {
         {cells.map((active, index) => (
           <div
             key={index}
-            onMouseDown={() => mouseDownHandler(index)}
-            onMouseOver={() => handleHover(index)}
+            onMouseDown={
+              eraseState
+                ? () => eraseDownHandler(index)
+                : () => mouseDownHandler(index)
+            }
+            onMouseOver={
+              eraseState
+                ? () => eraseHoverHandler(index)
+                : () => hoverHandler(index)
+            }
             style={{ backgroundColor: active.color }}
           ></div>
         ))}

@@ -1,6 +1,6 @@
 import "./button.css";
 
-const Buttons = ({ clearGrid, changeGridSize, size, changeColor }) => {
+const Buttons = ({ clearGrid, eraseGrid, changeGridSize, size, changeColor }) => {
  
   
   return (
@@ -13,7 +13,7 @@ const Buttons = ({ clearGrid, changeGridSize, size, changeColor }) => {
           onChange={changeColor}
         />
       </div>
-
+      <button onClick={eraseGrid}>erase</button>
       <button onClick={clearGrid}>clear</button>
       <label htmlFor="gridSize">{`${size} x ${size}`}</label>
       <input
