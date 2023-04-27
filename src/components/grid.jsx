@@ -3,9 +3,10 @@ import Buttons from "./buttons";
 import "./grid.css";
 
 const Grid = ({ isMouseDown }) => {
+  const cellDataStructure = { state: false, color: "#ffffff" };
   const [gridSize, setGridSize] = useState(4);
   const [cells, setCells] = useState(
-    Array(gridSize ** 2).fill({ state: false, color: "rgb(255 255 255)" })
+    Array(gridSize ** 2).fill(cellDataStructure)
   );
   const [pickColor, setPickColor] = useState("#000000");
   const [eraseState, setEraseState] = useState(false);
@@ -16,29 +17,24 @@ const Grid = ({ isMouseDown }) => {
 
   const gridSizeHandler = ({ target: { value } }) => {
     setGridSize(value);
-    setCells(Array(value ** 2).fill({ state: false, color: "#ffffff" }));
+    setCells(Array(value ** 2).fill(cellDataStructure));
+  };
+
+  const updateCell = (prevState, index, state, color) => {
+    const newState = [...prevState];
+    newState[index] = { state, color };
+    return newState;
   };
 
   const hoverHandler = (index) => {
     if (isMouseDown) {
-      setCells((prevState) => {
-        const newState = [...prevState];
-        newState[index] = { state: true, color: pickColor };
-        return newState;
-      });
+      setCells((prevState) => updateCell(prevState, index, true, pickColor));
     }
   };
 
   const mouseDownHandler = (index) => {
-    setCells((prevState) => {
-      const newState = [...prevState];
-      newState[index] = { state: true, color: pickColor };
-      return newState;
-    });
+    setCells((prevState) => updateCell(prevState, index, true, pickColor));
   };
-
-  // console.log(cells);
-  // const handleHover = (index) => isMouseDown && setCells({...cells, state:true})
 
   const eraseStateHandler = () => {
     setEraseState(true);
@@ -46,24 +42,16 @@ const Grid = ({ isMouseDown }) => {
 
   const eraseHoverHandler = (index) => {
     if (isMouseDown) {
-      setCells((prevState) => {
-        const newState = [...prevState];
-        newState[index] = { state: false, color: "#ffffff" };
-        return newState;
-      });
+      setCells((prevState) => updateCell(prevState, index, false, "#ffffff"));
     }
   };
 
   const eraseDownHandler = (index) => {
-    setCells((prevState) => {
-      const newState = [...prevState];
-      newState[index] = { state: false, color: "#ffffff" };
-      return newState;
-    });
+    setCells((prevState) => updateCell(prevState, index, false, "#ffffff"));
   };
 
   const clearGrid = () => {
-    setCells(Array(gridSize ** 2).fill({ state: false, color: "#ffffff" }));
+    setCells(Array(gridSize ** 2).fill(cellDataStructure));
     setEraseState(false);
   };
 
