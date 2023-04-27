@@ -24,7 +24,7 @@ button.active {
   background-color: gray;
 }
 
-.color-palette {
+.color-palette input {
   border: none;
   background-color: transparent;
   width: 100px;
