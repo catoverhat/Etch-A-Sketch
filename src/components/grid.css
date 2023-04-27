@@ -13,10 +13,3 @@
   user-select: none;
 }
 
-/* .grid-container div:hover {
-  background-color: #000;
-} */
-
-.grid-container div.active {
-  background-color: #000;
-}

@@ -1,52 +1,41 @@
-import { Fragment, useLayoutEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import Buttons from "./buttons";
 import "./grid.css";
 
 const Grid = ({ isMouseDown }) => {
-  const [gridSize, setGridSize] = useState(16);
+  const [gridSize, setGridSize] = useState(3);
   // const [cells, setCells] = useState("");
   const [clear, setClear] = useState(false);
-  const [cells, setCells] = useState(Array(gridSize ** 2).fill(false));
+  const [cells, setCells] = useState(
+    Array(gridSize ** 2).fill({ state: false, color: "#ffffff" })
+  );
+  const [pickColor, setPickColor] = useState("#000000");
 
-  // const gridSizeHandler = (event) => {
-  //   setGridSize(event.target.value);
-  // };
-
-  const gridSizeHandler = (event) => {
-    setGridSize(event.target.value);
-    setCells(Array(event.target.value ** 2).fill(false));
+  const colorPaletteHandler = ({ target: { value } }) => {
+    setPickColor(value);
   };
 
-  // useLayoutEffect(() => {
-  //   const skecht = () => {
-  //     const gridCells = [];
-  //     for (let index = 0; index < gridSize ** 2; index++) {
-  //       gridCells.push(<div key={index}></div>);
-  //     }
-  //     // console.log('tst');
-  //     setCells(gridCells);
-  //   };
-  //   skecht();
-  // }, [gridSize]);
-
-  // const handleHover = (event) => {
-  //   if (isMouseDown) {
-  //     event.target.classList.add("active");
-  //   }
-  // };
+  const gridSizeHandler = ({ target: { value } }) => {
+    setGridSize(value);
+    setCells(Array(value ** 2).fill({ state: false, color: "#ffffff" }));
+  };
 
   const handleHover = (index) => {
     if (isMouseDown) {
       setCells((prevState) => {
         const newState = [...prevState];
-        newState[index] = true;
+        newState[index] = { state: true, color: pickColor };
+
+        // console.log(newState);
         return newState;
       });
     }
   };
+  // console.log(cells);
+  // const handleHover = (index) => isMouseDown && setCells({...cells, state:true})
 
   const clearGrid = () => {
-    setCells(Array(gridSize ** 2).fill(false));
+    setCells(Array(gridSize ** 2).fill({ state: false, color: "#ffffff" }));
   };
 
   return (
@@ -55,6 +44,7 @@ const Grid = ({ isMouseDown }) => {
         clearGrid={clearGrid}
         changeGridSize={gridSizeHandler}
         size={gridSize}
+        changeColor={colorPaletteHandler}
       />
       <div
         // onMouseOver={handleHover}
@@ -67,7 +57,7 @@ const Grid = ({ isMouseDown }) => {
           <div
             key={index}
             onMouseOver={() => handleHover(index)}
-            className={active ? "active" : ""}
+            style={{ backgroundColor: active.color }}
           ></div>
         ))}
       </div>

@@ -1,8 +1,19 @@
 import "./button.css";
 
-const Buttons = ({ clearGrid, changeGridSize, size }) => {
+const Buttons = ({ clearGrid, changeGridSize, size, changeColor }) => {
+ 
+  
   return (
     <div className="btn-container">
+      <div className="color-palette">
+        <input
+          type="color"
+          id="brush"
+          name="brush"
+          onChange={changeColor}
+        />
+      </div>
+
       <button onClick={clearGrid}>clear</button>
       <label htmlFor="gridSize">{`${size} x ${size}`}</label>
       <input
