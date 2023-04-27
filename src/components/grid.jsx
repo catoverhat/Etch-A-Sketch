@@ -10,9 +10,24 @@ const Grid = ({ isMouseDown }) => {
   );
   const [pickColor, setPickColor] = useState("#000000");
   const [eraseState, setEraseState] = useState(false);
+  const [colorState, setColorState] = useState(false);
+  const [rainbowState, setRainbowState] = useState(false);
 
-  const colorPaletteHandler = ({ target: { value } }) => {
-    setPickColor(value);
+  const colorModeHandler = () => {
+    setColorState(true);
+    setRainbowState(false);
+    setEraseState(false);
+  };
+  const rainbowModeHandler = () => {
+    setColorState(false);
+    setRainbowState(true);
+    setEraseState(false);
+  };
+
+  const eraseStateHandler = () => {
+    setColorState(false);
+    setRainbowState(false);
+    setEraseState(true);
   };
 
   const gridSizeHandler = ({ target: { value } }) => {
@@ -26,18 +41,32 @@ const Grid = ({ isMouseDown }) => {
     return newState;
   };
 
+  const getRandomColor = () => {
+    const hexDigits = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += hexDigits[Math.floor(Math.random() * 16)];
+    }
+    rainbowState && setPickColor(color);;
+  };
+
+  const colorPaletteHandler = ({ target: { value } }) => {
+    colorState && setPickColor(value);
+  };
+  const mouseDownHandler = (index) => {
+    getRandomColor()
+    setCells((prevState) => updateCell(prevState, index, true, pickColor));
+  };
+
   const hoverHandler = (index) => {
     if (isMouseDown) {
+      getRandomColor()
       setCells((prevState) => updateCell(prevState, index, true, pickColor));
     }
   };
 
-  const mouseDownHandler = (index) => {
-    setCells((prevState) => updateCell(prevState, index, true, pickColor));
-  };
-
-  const eraseStateHandler = () => {
-    setEraseState(true);
+  const eraseDownHandler = (index) => {
+    setCells((prevState) => updateCell(prevState, index, false, "#ffffff"));
   };
 
   const eraseHoverHandler = (index) => {
@@ -46,23 +75,20 @@ const Grid = ({ isMouseDown }) => {
     }
   };
 
-  const eraseDownHandler = (index) => {
-    setCells((prevState) => updateCell(prevState, index, false, "#ffffff"));
-  };
-
-  const clearGrid = () => {
+  const clearGridHandler = () => {
     setCells(Array(gridSize ** 2).fill(cellDataStructure));
-    setEraseState(false);
   };
 
   return (
     <Fragment>
       <Buttons
-        clearGrid={clearGrid}
+        clearGrid={clearGridHandler}
         changeGridSize={gridSizeHandler}
         size={gridSize}
         changeColor={colorPaletteHandler}
         eraseGrid={eraseStateHandler}
+        colorMode={colorModeHandler}
+        rainbowMode={rainbowModeHandler}
       />
       <div
         className="grid-container"

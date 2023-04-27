@@ -1,28 +1,26 @@
-main{
-    height: 100vh;
-    background: linear-gradient(220.55deg, #EAEAEA 0%, #8B8B8B 100%);
-    /* display: grid;
-    grid-template-columns: repeat(2,1fr); */
+main {
+  height: 100vh;
+  background: linear-gradient(220.55deg, #eaeaea 0%, #8b8b8b 100%);
 }
 
-header{
-    text-align: center;
-    font-size: 60px;
-    padding: 40px;
+header {
+  text-align: center;
+  font-size: 60px;
+  padding: 40px;
 }
 
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
+.container {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 50px;
+  justify-items: center;
 }
 
-footer{
-    position: relative;
-    top: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+footer {
+  position: relative;
+  top: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
