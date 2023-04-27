@@ -4,24 +4,52 @@ const Buttons = ({
   clearGrid,
   eraseGrid,
   changeGridSize,
-  size,
+  gridSize,
   changeColor,
   colorMode,
   rainbowMode,
+  mode,
 }) => {
+  const selectedButton = () => {
+    switch (mode) {
+      case "color":
+        return "color";
+      case "rainbow":
+        return "rainbow";
+      case "erase":
+        return "erase";
+      default:
+        return "";
+    }
+  };
   return (
     <div className="btn-container">
       <div className="color-palette">
         <input type="color" id="brush" name="brush" onChange={changeColor} />
       </div>
-      <button onClick={colorMode}>color mode</button>
-      <button onClick={rainbowMode}>rainbow</button>
-      <button onClick={eraseGrid}>erase</button>
+      <button
+        onClick={colorMode}
+        className={selectedButton() === "color" ? "active" : ""}
+      >
+        color mode
+      </button>
+      <button
+        onClick={rainbowMode}
+        className={selectedButton() === "rainbow" ? "active" : ""}
+      >
+        rainbow
+      </button>
+      <button
+        onClick={eraseGrid}
+        className={selectedButton() === "erase" ? "active" : ""}
+      >
+        erase
+      </button>
       <button onClick={clearGrid}>clear</button>
       <div className="grid-size">
-        <label htmlFor="gridSize">{`${size} x ${size}`}</label>
+        <label htmlFor="gridSize">{`${gridSize} x ${gridSize}`}</label>
         <input
-          value={size}
+          value={gridSize}
           onChange={changeGridSize}
           type="range"
           id="gridSize"

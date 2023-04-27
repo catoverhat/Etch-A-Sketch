@@ -4,32 +4,23 @@ import "./grid.css";
 
 const Grid = ({ isMouseDown }) => {
   const cellDataStructure = { state: false, color: "#ffffff" };
-  const [gridSize, setGridSize] = useState(4);
+  const [gridSize, setGridSize] = useState(16);
   const [cells, setCells] = useState(
     Array(gridSize ** 2).fill(cellDataStructure)
   );
   const [selectedColor, setSelectedColor] = useState("#000000");
-  const [colorState, setColorState] = useState(true);
-  const [rainbowState, setRainbowState] = useState(false);
-  const [eraseState, setEraseState] = useState(false);
-
+  const [mode, setMode] = useState("");
 
   const colorModeHandler = () => {
-    setColorState(true);
-    setRainbowState(false);
-    setEraseState(false);
+    setMode("color");
   };
 
-  const rainbowModeHandler = () => {
-    setColorState(false);
-    setRainbowState(true);
-    setEraseState(false);
+  const rainbowModeHandler = (event) => {
+    setMode("rainbow");
   };
 
   const eraseStateHandler = () => {
-    setColorState(false);
-    setRainbowState(false);
-    setEraseState(true);
+    setMode("erase");
   };
 
   const gridSizeHandler = ({ target: { value } }) => {
@@ -57,11 +48,11 @@ const Grid = ({ isMouseDown }) => {
   };
 
   const mouseDownHandler = (index) => {
-    colorState &&
+    mode === "color" &&
       setCells((prevState) =>
         updateCell(prevState, index, true, selectedColor)
       );
-    rainbowState &&
+    mode === "rainbow" &&
       setCells((prevState) =>
         updateCell(prevState, index, true, getRandomColor())
       );
@@ -69,11 +60,11 @@ const Grid = ({ isMouseDown }) => {
 
   const hoverHandler = (index) => {
     if (isMouseDown) {
-      colorState &&
+      mode === "color" &&
         setCells((prevState) =>
           updateCell(prevState, index, true, selectedColor)
         );
-      rainbowState &&
+      mode === "rainbow" &&
         setCells((prevState) =>
           updateCell(prevState, index, true, getRandomColor())
         );
@@ -99,11 +90,12 @@ const Grid = ({ isMouseDown }) => {
       <Buttons
         clearGrid={clearGridHandler}
         changeGridSize={gridSizeHandler}
-        size={gridSize}
         changeColor={colorPaletteHandler}
         eraseGrid={eraseStateHandler}
         colorMode={colorModeHandler}
         rainbowMode={rainbowModeHandler}
+        gridSize={gridSize}
+        mode={mode}
       />
       <div
         className="grid-container"
@@ -113,12 +105,12 @@ const Grid = ({ isMouseDown }) => {
           <div
             key={index}
             onMouseDown={
-              eraseState
+              mode === "erase"
                 ? () => eraseDownHandler(index)
                 : () => mouseDownHandler(index)
             }
             onMouseOver={
-              eraseState
+              mode === "erase"
                 ? () => eraseHoverHandler(index)
                 : () => hoverHandler(index)
             }

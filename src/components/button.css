@@ -1,26 +1,37 @@
-.btn-container{
-    display: grid;
-    align-content: space-between;
-    justify-items: center;
-    justify-self: end;
+.btn-container {
+  display: grid;
+  align-content: space-between;
+  justify-items: center;
+  justify-self: end;
 }
 
-button{
-    background-color: transparent;
-    border: solid 2px #000;
-    border-radius: 5px;
-    width: 100px;
-    height: 30px;
-    font-size: 20px;
-    text-transform: capitalize;
-    cursor: pointer;
+button {
+  background-color: transparent;
+  border: solid 2px #000;
+  border-radius: 5px;
+  width: 150px;
+  height: 45px;
+  font-size: 20px;
+  text-transform: capitalize;
+  cursor: pointer;
 }
 
-.color-palette{
-
+button:hover {
+  transform: scale(1.1);
 }
 
-.grid-size{
-    display: grid;
-    justify-items: center;
+button.active {
+  background-color: gray;
+}
+
+.color-palette {
+  border: none;
+  background-color: transparent;
+  width: 100px;
+  height: 50px;
+}
+
+.grid-size {
+  display: grid;
+  justify-items: center;
 }
